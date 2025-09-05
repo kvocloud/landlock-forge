@@ -12,7 +12,7 @@ export interface Property {
   area: number;
   parking?: number;
   image: string;
-  status: "For Sale" | "For Rent" | "Sold";
+  status: "Cần bán" | "Cho thuê" | "Đã bán";
   featured: boolean;
   description: string;
   amenities: string[];
@@ -30,7 +30,7 @@ export const mockProperties: Property[] = [
     area: 120,
     parking: 2,
     image: property1,
-    status: "For Sale",
+    status: "Cần bán",
     featured: true,
     description: "Stunning luxury apartment with panoramic city views in the iconic Landmark 81. Features premium finishes and world-class amenities.",
     amenities: ["Swimming Pool", "Gym", "Concierge", "Sky Garden", "Security 24/7"],
@@ -46,7 +46,7 @@ export const mockProperties: Property[] = [
     area: 250,
     parking: 3,
     image: property2,
-    status: "For Sale",
+    status: "Cần bán",
     featured: true,
     description: "Beautifully designed modern villa in prestigious Thao Dien area. Perfect for families with spacious living areas and private garden.",
     amenities: ["Private Garden", "Parking", "Security", "Modern Kitchen", "Master Suite"],
@@ -62,7 +62,7 @@ export const mockProperties: Property[] = [
     area: 300,
     parking: 2,
     image: property3,
-    status: "For Sale",
+    status: "Cần bán",
     featured: false,
     description: "Spacious villa with private swimming pool and contemporary design. Located in the heart of District 7's international community.",
     amenities: ["Swimming Pool", "Garden", "Parking", "BBQ Area", "Security"],
@@ -78,7 +78,7 @@ export const mockProperties: Property[] = [
     area: 80,
     parking: 1,
     image: property1,
-    status: "For Rent",
+    status: "Cho thuê",
     featured: false,
     description: "Well-located apartment in the city center, perfect for young professionals. Walking distance to major attractions and business districts.",
     amenities: ["Elevator", "Balcony", "Air Conditioning", "Kitchen", "Internet"],
@@ -94,7 +94,7 @@ export const mockProperties: Property[] = [
     area: 200,
     parking: 2,
     image: property2,
-    status: "For Sale",
+    status: "Cần bán",
     featured: true,
     description: "Exclusive penthouse with 360-degree city views. Premium location with luxury amenities and sophisticated design.",
     amenities: ["City Views", "Roof Terrace", "Elevator", "Premium Finishes", "Concierge"],
@@ -110,7 +110,7 @@ export const mockProperties: Property[] = [
     area: 150,
     parking: 2,
     image: property3,
-    status: "For Sale",
+    status: "Cần bán",
     featured: false,
     description: "Affordable family home with modern amenities. Great for growing families looking for space and value outside the city center.",
     amenities: ["Garden", "Parking", "Modern Kitchen", "Security", "Playground Nearby"],
@@ -119,5 +119,5 @@ export const mockProperties: Property[] = [
 ];
 
 export const getFeaturedProperties = () => mockProperties.filter(property => property.featured);
-export const getPropertiesForSale = () => mockProperties.filter(property => property.status === "For Sale");
-export const getPropertiesForRent = () => mockProperties.filter(property => property.status === "For Rent");
+export const getPropertiesForSale = () => mockProperties.filter(property => property.status === "Cần bán");
+export const getPropertiesForRent = () => mockProperties.filter(property => property.status === "Cho thuê");

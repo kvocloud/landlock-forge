@@ -1,6 +1,7 @@
 import { Heart, MapPin, Bed, Bath, Square, Car } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Badge } from "@/components/ui/badge";
+import { Link } from "react-router-dom";
 
 interface PropertyCardProps {
   id: number;
@@ -12,11 +13,12 @@ interface PropertyCardProps {
   area: number;
   parking?: number;
   image: string;
-  status?: "For Sale" | "For Rent" | "Sold";
+  status?: "Cần bán" | "Cho thuê" | "Đã bán";
   featured?: boolean;
 }
 
 const PropertyCard = ({
+  id,
   title,
   price,
   location,
@@ -25,7 +27,7 @@ const PropertyCard = ({
   area,
   parking,
   image,
-  status = "For Sale",
+  status = "Cần bán",
   featured = false
 }: PropertyCardProps) => {
   const formatPrice = (price: number) => {
@@ -39,7 +41,7 @@ const PropertyCard = ({
   };
 
   return (
-    <div className="group relative overflow-hidden rounded-xl bg-card shadow-card hover:shadow-hover transition-all duration-300 hover:-translate-y-1">
+    <Link to={`/property/${id}`} className="group relative overflow-hidden rounded-xl bg-card shadow-card hover:shadow-hover transition-all duration-300 hover:-translate-y-1 block">
       {/* Image */}
       <div className="relative aspect-[4/3] overflow-hidden">
         <img
@@ -58,8 +60,8 @@ const PropertyCard = ({
         {/* Status badge */}
         <div className="absolute top-4 left-4">
           <Badge 
-            variant={status === "Sold" ? "destructive" : "default"}
-            className={`${status === "For Sale" ? "bg-accent" : status === "For Rent" ? "bg-warning" : ""} text-white`}
+            variant={status === "Đã bán" ? "destructive" : "default"}
+            className={`${status === "Cần bán" ? "bg-accent" : status === "Cho thuê" ? "bg-warning" : ""} text-white`}
           >
             {status}
           </Badge>
@@ -68,7 +70,7 @@ const PropertyCard = ({
         {featured && (
           <div className="absolute top-4 left-20">
             <Badge className="bg-gradient-price text-white">
-              Featured
+              Nổi bật
             </Badge>
           </div>
         )}
@@ -81,8 +83,8 @@ const PropertyCard = ({
           <span className="text-2xl font-bold text-price-text">
             {formatPrice(price)}
           </span>
-          {status === "For Rent" && (
-            <span className="text-muted-foreground text-sm ml-1">/month</span>
+          {status === "Cho thuê" && (
+            <span className="text-muted-foreground text-sm ml-1">/tháng</span>
           )}
         </div>
 
@@ -121,7 +123,7 @@ const PropertyCard = ({
           </div>
         </div>
       </div>
-    </div>
+    </Link>
   );
 };
 
