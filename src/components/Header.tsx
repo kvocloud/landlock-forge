@@ -2,8 +2,10 @@ import { Search, Menu, User, Heart, Bell } from "lucide-react";
 import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
+import { useAuthStore } from "@/store/authStore";
 
 const Header = () => {
+  const { isAuthenticated, profile } = useAuthStore();
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-card/80 backdrop-blur-md">
       <div className="container mx-auto px-4">
@@ -45,13 +47,31 @@ const Header = () => {
             <Button variant="ghost" size="icon" className="md:hidden">
               <Search className="h-5 w-5" />
             </Button>
-            <Button variant="outline" className="hidden md:flex">
-              <User className="h-4 w-4 mr-2" />
-              Đăng nhập
-            </Button>
-            <Button variant="hero" className="hidden md:flex">
-              Đăng tin
-            </Button>
+            {isAuthenticated ? (
+              <>
+                <Button asChild className="hidden md:flex">
+                  <Link to="/dashboard">
+                    <User className="h-4 w-4 mr-2" />
+                    {profile?.full_name || 'Tài khoản'}
+                  </Link>
+                </Button>
+                <Button variant="hero" asChild className="hidden md:flex">
+                  <Link to="/listings/new">Đăng tin</Link>
+                </Button>
+              </>
+            ) : (
+              <>
+                <Button variant="outline" asChild className="hidden md:flex">
+                  <Link to="/auth">
+                    <User className="h-4 w-4 mr-2" />
+                    Đăng nhập
+                  </Link>
+                </Button>
+                <Button variant="hero" asChild className="hidden md:flex">
+                  <Link to="/auth">Đăng ký</Link>
+                </Button>
+              </>
+            )}
             <Button variant="ghost" size="icon" className="md:hidden">
               <Menu className="h-5 w-5" />
             </Button>
