@@ -14,7 +14,257 @@ export type Database = {
   }
   public: {
     Tables: {
-      [_ in never]: never
+      leads: {
+        Row: {
+          agent_id: string
+          created_at: string
+          email: string | null
+          id: string
+          listing_id: string
+          name: string
+          notes: string | null
+          phone: string | null
+          source: string | null
+          status: string | null
+        }
+        Insert: {
+          agent_id: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          listing_id: string
+          name: string
+          notes?: string | null
+          phone?: string | null
+          source?: string | null
+          status?: string | null
+        }
+        Update: {
+          agent_id?: string
+          created_at?: string
+          email?: string | null
+          id?: string
+          listing_id?: string
+          name?: string
+          notes?: string | null
+          phone?: string | null
+          source?: string | null
+          status?: string | null
+        }
+        Relationships: [
+          {
+            foreignKeyName: "leads_listing_id_fkey"
+            columns: ["listing_id"]
+            isOneToOne: false
+            referencedRelation: "listings"
+            referencedColumns: ["id"]
+          },
+        ]
+      }
+      listings: {
+        Row: {
+          address: string | null
+          area: number | null
+          category: string | null
+          created_at: string
+          description: string | null
+          district: string | null
+          geo_lat: number | null
+          geo_lng: number | null
+          id: string
+          images: Json | null
+          price: number
+          province: string | null
+          status: string | null
+          title: string
+          type: string
+          unit: string | null
+          updated_at: string
+          user_id: string
+          views: number | null
+          ward: string | null
+        }
+        Insert: {
+          address?: string | null
+          area?: number | null
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          district?: string | null
+          geo_lat?: number | null
+          geo_lng?: number | null
+          id?: string
+          images?: Json | null
+          price: number
+          province?: string | null
+          status?: string | null
+          title: string
+          type: string
+          unit?: string | null
+          updated_at?: string
+          user_id: string
+          views?: number | null
+          ward?: string | null
+        }
+        Update: {
+          address?: string | null
+          area?: number | null
+          category?: string | null
+          created_at?: string
+          description?: string | null
+          district?: string | null
+          geo_lat?: number | null
+          geo_lng?: number | null
+          id?: string
+          images?: Json | null
+          price?: number
+          province?: string | null
+          status?: string | null
+          title?: string
+          type?: string
+          unit?: string | null
+          updated_at?: string
+          user_id?: string
+          views?: number | null
+          ward?: string | null
+        }
+        Relationships: []
+      }
+      notifications: {
+        Row: {
+          created_at: string
+          id: string
+          is_read: boolean | null
+          message: string | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Insert: {
+          created_at?: string
+          id?: string
+          is_read?: boolean | null
+          message?: string | null
+          title: string
+          type: string
+          user_id: string
+        }
+        Update: {
+          created_at?: string
+          id?: string
+          is_read?: boolean | null
+          message?: string | null
+          title?: string
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      profiles: {
+        Row: {
+          about: string | null
+          address: string | null
+          avatar_url: string | null
+          created_at: string
+          full_name: string | null
+          geo_lat: number | null
+          geo_lng: number | null
+          id: string
+          phone: string | null
+          role: string | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          about?: string | null
+          address?: string | null
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          geo_lat?: number | null
+          geo_lng?: number | null
+          id?: string
+          phone?: string | null
+          role?: string | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          about?: string | null
+          address?: string | null
+          avatar_url?: string | null
+          created_at?: string
+          full_name?: string | null
+          geo_lat?: number | null
+          geo_lng?: number | null
+          id?: string
+          phone?: string | null
+          role?: string | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      transactions: {
+        Row: {
+          amount: number
+          created_at: string
+          id: string
+          note: string | null
+          type: string
+          user_id: string
+        }
+        Insert: {
+          amount: number
+          created_at?: string
+          id?: string
+          note?: string | null
+          type: string
+          user_id: string
+        }
+        Update: {
+          amount?: number
+          created_at?: string
+          id?: string
+          note?: string | null
+          type?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
+      wallets: {
+        Row: {
+          balance: number | null
+          boosts_left: number | null
+          created_at: string
+          id: string
+          membership_tier: string | null
+          total_topup: number | null
+          updated_at: string
+          user_id: string
+        }
+        Insert: {
+          balance?: number | null
+          boosts_left?: number | null
+          created_at?: string
+          id?: string
+          membership_tier?: string | null
+          total_topup?: number | null
+          updated_at?: string
+          user_id: string
+        }
+        Update: {
+          balance?: number | null
+          boosts_left?: number | null
+          created_at?: string
+          id?: string
+          membership_tier?: string | null
+          total_topup?: number | null
+          updated_at?: string
+          user_id?: string
+        }
+        Relationships: []
+      }
     }
     Views: {
       [_ in never]: never
