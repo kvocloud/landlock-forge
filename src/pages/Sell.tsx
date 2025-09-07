@@ -18,10 +18,10 @@ const Sell = () => {
         <section className="bg-gradient-hero py-20">
           <div className="container mx-auto px-4 text-center">
             <h1 className="text-4xl md:text-6xl font-bold text-white mb-6">
-              Đăng Tin Bán
+              Đăng Tin Bất Động Sản
             </h1>
             <p className="text-xl text-white/90 max-w-2xl mx-auto">
-              Đăng tin bán bất động sản miễn phí và tiếp cận hàng triệu khách hàng tiềm năng
+              Đăng tin bán, cho thuê, mua bất động sản miễn phí và tiếp cận hàng triệu khách hàng tiềm năng
             </p>
           </div>
         </section>
@@ -37,7 +37,21 @@ const Sell = () => {
                 </CardDescription>
               </CardHeader>
               <CardContent className="space-y-6">
-                <div className="grid grid-cols-1 md:grid-cols-2 gap-6">
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
+                  <div className="space-y-2">
+                    <Label htmlFor="listing-type">Loại tin đăng *</Label>
+                    <Select>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Chọn loại tin" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="sell">Cần bán</SelectItem>
+                        <SelectItem value="rent">Cho thuê</SelectItem>
+                        <SelectItem value="buy">Cần mua</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
                   <div className="space-y-2">
                     <Label htmlFor="title">Tiêu đề tin đăng *</Label>
                     <Input 
@@ -63,13 +77,61 @@ const Sell = () => {
                   </div>
                 </div>
 
+                <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
+                  <div className="space-y-2">
+                    <Label htmlFor="province">Tỉnh/Thành phố *</Label>
+                    <Select>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Chọn tỉnh/thành" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="ho-chi-minh">TP. Hồ Chí Minh</SelectItem>
+                        <SelectItem value="hanoi">Hà Nội</SelectItem>
+                        <SelectItem value="da-nang">Đà Nẵng</SelectItem>
+                        <SelectItem value="binh-duong">Bình Dương</SelectItem>
+                        <SelectItem value="dong-nai">Đồng Nai</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="district">Quận/Huyện *</Label>
+                    <Select>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Chọn quận/huyện" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="district-1">Quận 1</SelectItem>
+                        <SelectItem value="district-2">Quận 2</SelectItem>
+                        <SelectItem value="district-3">Quận 3</SelectItem>
+                        <SelectItem value="thu-duc">Thủ Đức</SelectItem>
+                        <SelectItem value="binh-thanh">Bình Thạnh</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+
+                  <div className="space-y-2">
+                    <Label htmlFor="ward">Phường/Xã</Label>
+                    <Select>
+                      <SelectTrigger>
+                        <SelectValue placeholder="Chọn phường/xã" />
+                      </SelectTrigger>
+                      <SelectContent>
+                        <SelectItem value="ward-1">Phường 1</SelectItem>
+                        <SelectItem value="ward-2">Phường 2</SelectItem>
+                        <SelectItem value="ward-3">Phường 3</SelectItem>
+                      </SelectContent>
+                    </Select>
+                  </div>
+                </div>
+
                 <div className="space-y-2">
-                  <Label htmlFor="address">Địa chỉ *</Label>
+                  <Label htmlFor="address">Địa chỉ chi tiết *</Label>
                   <div className="relative">
                     <MapPin className="absolute left-3 top-1/2 transform -translate-y-1/2 h-4 w-4 text-muted-foreground" />
                     <Input 
                       id="address" 
-                      placeholder="Nhập địa chỉ chi tiết..."
+                      placeholder="Số nhà, tên đường..."
                       className="pl-10"
                     />
                   </div>

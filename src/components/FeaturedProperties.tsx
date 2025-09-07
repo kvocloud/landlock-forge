@@ -13,10 +13,10 @@ const FeaturedProperties = () => {
         <div className="flex items-center justify-between mb-12">
           <div>
             <h2 className="text-3xl md:text-4xl font-bold mb-4">
-              Featured Properties
+              Bất Động Sản Nổi Bật
             </h2>
             <p className="text-lg text-muted-foreground max-w-2xl">
-              Discover our handpicked selection of premium properties, carefully chosen for their exceptional quality and prime locations.
+              Khám phá bộ sưu tập những bất động sản cao cấp được chọn lọc kỹ lưỡng, nổi bật về chất lượng và vị trí đắc địa.
             </p>
           </div>
           
@@ -53,7 +53,7 @@ const FeaturedProperties = () => {
         {/* View All Button */}
         <div className="text-center mt-12">
           <Button size="lg" variant="hero">
-            View All Properties
+            Xem Tất Cả Bất Động Sản
           </Button>
         </div>
       </div>

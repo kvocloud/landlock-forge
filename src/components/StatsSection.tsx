@@ -5,26 +5,26 @@ const StatsSection = () => {
     {
       icon: Building,
       value: "15,000+",
-      label: "Properties Listed",
-      description: "Active listings across Vietnam"
+      label: "Bất Động Sản Đăng Tin",
+      description: "Tin đăng hoạt động trên toàn Việt Nam"
     },
     {
       icon: Users,
       value: "50,000+",
-      label: "Happy Customers",
-      description: "Satisfied clients nationwide"
+      label: "Khách Hàng Hài Lòng",
+      description: "Khách hàng hài lòng trên toàn quốc"
     },
     {
       icon: Award,
       value: "25+",
-      label: "Awards Won",
-      description: "Recognition for excellence"
+      label: "Giải Thưởng",
+      description: "Sự công nhận về sự xuất sắc"
     },
     {
       icon: TrendingUp,
       value: "98%",
-      label: "Success Rate",
-      description: "Properties sold successfully"
+      label: "Tỷ Lệ Thành Công",
+      description: "Bất động sản được bán thành công"
     }
   ];
 
@@ -33,10 +33,10 @@ const StatsSection = () => {
       <div className="container mx-auto px-4">
         <div className="text-center mb-12">
           <h2 className="text-3xl md:text-4xl font-bold text-white mb-4">
-            Trusted by Thousands
+            Được Hàng Nghìn Người Tin Tưởng  
           </h2>
           <p className="text-xl text-white/90 max-w-2xl mx-auto">
-            Join the growing community of property owners and buyers who trust EstateHub for their real estate needs.
+            Tham gia cộng đồng ngày càng phát triển của các chủ sở hữu và người mua bất động sản tin tưởng EstateHub.
           </p>
         </div>
 

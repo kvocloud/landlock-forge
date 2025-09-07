@@ -5,9 +5,9 @@ import heroImage from "@/assets/hero-image.jpg";
 
 const HeroSection = () => {
   const stats = [
-    { icon: TrendingUp, label: "Properties Sold", value: "10,000+" },
-    { icon: Users, label: "Happy Clients", value: "25,000+" },
-    { icon: Award, label: "Awards Won", value: "50+" },
+    { icon: TrendingUp, label: "Bất động sản đã bán", value: "10,000+" },
+    { icon: Users, label: "Khách hàng hài lòng", value: "25,000+" },
+    { icon: Award, label: "Giải thưởng", value: "50+" },
   ];
 
   return (
@@ -27,16 +27,16 @@ const HeroSection = () => {
         <div className="max-w-4xl mx-auto">
           {/* Main Heading */}
           <h1 className="text-4xl md:text-6xl font-bold mb-6 leading-tight">
-            Find Your
+            Tìm Ngôi Nhà
             <span className="block bg-gradient-to-r from-accent to-accent-hover bg-clip-text text-transparent">
-              Dream Home
+              Mơ Ước
             </span>
-            Today
+            Của Bạn
           </h1>
 
           {/* Subtitle */}
           <p className="text-xl md:text-2xl text-white/90 mb-8 leading-relaxed">
-            Discover the perfect property from our extensive collection of premium real estate listings
+            Khám phá bất động sản hoàn hảo từ bộ sưu tập rộng lớn các tin đăng cao cấp của chúng tôi
           </p>
 
           {/* Search Bar */}
@@ -46,13 +46,13 @@ const HeroSection = () => {
                 <div className="relative">
                   <Search className="absolute left-4 top-1/2 transform -translate-y-1/2 h-5 w-5 text-muted-foreground" />
                   <Input
-                    placeholder="Enter location, property type, or keywords..."
+                    placeholder="Nhập địa điểm, loại bất động sản hoặc từ khóa..."
                     className="pl-12 h-14 text-base bg-background border-0 text-foreground"
                   />
                 </div>
               </div>
               <Button variant="hero" className="h-14 px-8 text-base font-semibold">
-                Search Now
+                Tìm Kiếm
               </Button>
             </div>
           </div>

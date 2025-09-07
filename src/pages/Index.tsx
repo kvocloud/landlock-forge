@@ -17,10 +17,10 @@ const Index = () => {
           <div className="container mx-auto px-4">
             <div className="text-center mb-12">
               <h2 className="text-3xl md:text-4xl font-bold mb-4">
-                Find Your Perfect Property
+                Tìm Bất Động Sản Hoàn Hảo
               </h2>
               <p className="text-lg text-muted-foreground max-w-2xl mx-auto">
-                Use our advanced search filters to discover properties that match your exact requirements and budget.
+                Sử dụng bộ lọc tìm kiếm nâng cao để khám phá những bất động sản phù hợp với yêu cầu và ngân sách của bạn.
               </p>
             </div>
             <SearchFilters />
