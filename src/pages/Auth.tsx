@@ -25,7 +25,6 @@ interface RegisterForm {
 export default function Auth() {
   const { signIn, signUp, isAuthenticated, isLoading } = useAuthStore();
   const [activeTab, setActiveTab] = useState('login');
-  const [loading, setLoading] = useState(false);
 
   const loginForm = useForm<LoginForm>();
   const registerForm = useForm<RegisterForm>();
@@ -36,7 +35,6 @@ export default function Auth() {
   }
 
   const onLogin = async (data: LoginForm) => {
-    setLoading(true);
     const { error } = await signIn(data.email, data.password);
     
     if (error) {
@@ -53,7 +51,6 @@ export default function Auth() {
         description: "Chào mừng bạn quay trở lại!",
       });
     }
-    setLoading(false);
   };
 
   const onRegister = async (data: RegisterForm) => {
@@ -66,7 +63,6 @@ export default function Auth() {
       return;
     }
 
-    setLoading(true);
     const { error } = await signUp(data.email, data.password, data.fullName);
     
     if (error) {
@@ -83,7 +79,6 @@ export default function Auth() {
         description: "Tài khoản của bạn đã được tạo thành công!",
       });
     }
-    setLoading(false);
   };
 
   return (
@@ -151,9 +146,9 @@ export default function Auth() {
                   <Button 
                     type="submit" 
                     className="w-full" 
-                    disabled={loading || isLoading}
+                    disabled={isLoading}
                   >
-                    {loading || isLoading ? (
+                    {isLoading ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         Đang đăng nhập...
@@ -248,9 +243,9 @@ export default function Auth() {
                   <Button 
                     type="submit" 
                     className="w-full"
-                    disabled={loading || isLoading}
+                    disabled={isLoading}
                   >
-                    {loading || isLoading ? (
+                    {isLoading ? (
                       <>
                         <Loader2 className="mr-2 h-4 w-4 animate-spin" />
                         Đang tạo tài khoản...

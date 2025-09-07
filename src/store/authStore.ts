@@ -44,7 +44,7 @@ export const useAuthStore = create<AuthState>()(
       user: null,
       session: null,
       profile: null,
-      isLoading: true,
+      isLoading: false,
       isAuthenticated: false,
 
       setAuth: (user, session) => {
@@ -57,7 +57,10 @@ export const useAuthStore = create<AuthState>()(
         
         // Fetch profile when user is authenticated
         if (session?.user) {
-          get().fetchProfile();
+          // Use setTimeout to avoid calling async function during state update
+          setTimeout(() => {
+            get().fetchProfile();
+          }, 0);
         } else {
           set({ profile: null });
         }
@@ -69,42 +72,52 @@ export const useAuthStore = create<AuthState>()(
 
       signIn: async (email, password) => {
         set({ isLoading: true });
-        const { data, error } = await supabase.auth.signInWithPassword({
-          email,
-          password,
-        });
         
-        if (!error && data.session) {
-          get().setAuth(data.user, data.session);
-        } else {
+        try {
+          const { data, error } = await supabase.auth.signInWithPassword({
+            email,
+            password,
+          });
+          
+          // Don't manually set auth here - let the onAuthStateChange handle it
+          if (error) {
+            set({ isLoading: false });
+          }
+          
+          return { error };
+        } catch (error) {
           set({ isLoading: false });
+          return { error };
         }
-        
-        return { error };
       },
 
       signUp: async (email, password, fullName) => {
         set({ isLoading: true });
-        const redirectUrl = `${window.location.origin}/`;
         
-        const { data, error } = await supabase.auth.signUp({
-          email,
-          password,
-          options: {
-            emailRedirectTo: redirectUrl,
-            data: {
-              full_name: fullName,
+        try {
+          const redirectUrl = `${window.location.origin}/`;
+          
+          const { data, error } = await supabase.auth.signUp({
+            email,
+            password,
+            options: {
+              emailRedirectTo: redirectUrl,
+              data: {
+                full_name: fullName,
+              },
             },
-          },
-        });
-        
-        if (!error && data.session) {
-          get().setAuth(data.user, data.session);
-        } else {
+          });
+          
+          // Don't manually set auth here - let the onAuthStateChange handle it
+          if (error) {
+            set({ isLoading: false });
+          }
+          
+          return { error };
+        } catch (error) {
           set({ isLoading: false });
+          return { error };
         }
-        
-        return { error };
       },
 
       signOut: async () => {
