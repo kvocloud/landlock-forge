@@ -1,4 +1,5 @@
-import { useState } from "react";
+import { useState, useRef } from "react";
+import { useNavigate } from "react-router-dom";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -7,11 +8,14 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { Upload, Camera, MapPin, DollarSign } from "lucide-react";
-import { useToast } from "@/components/ui/use-toast";
+import { Upload, Camera, MapPin, DollarSign, X } from "lucide-react";
+import { useToast } from "@/hooks/use-toast";
 
 const Sell = () => {
   const { toast } = useToast();
+  const navigate = useNavigate();
+  const fileInputRef = useRef<HTMLInputElement>(null);
+  const [selectedImages, setSelectedImages] = useState<File[]>([]);
   const [formData, setFormData] = useState({
     listingType: "",
     title: "",
@@ -29,6 +33,22 @@ const Sell = () => {
 
   const handleInputChange = (field: string, value: string) => {
     setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleImageSelect = () => {
+    fileInputRef.current?.click();
+  };
+
+  const handleImageUpload = (event: React.ChangeEvent<HTMLInputElement>) => {
+    const files = event.target.files;
+    if (files) {
+      const newImages = Array.from(files).slice(0, 10 - selectedImages.length);
+      setSelectedImages(prev => [...prev, ...newImages]);
+    }
+  };
+
+  const removeImage = (index: number) => {
+    setSelectedImages(prev => prev.filter((_, i) => i !== index));
   };
 
   const handleSaveDraft = () => {
@@ -52,10 +72,24 @@ const Sell = () => {
       return;
     }
 
+    if (selectedImages.length === 0) {
+      toast({
+        title: "Thiếu hình ảnh",
+        description: "Vui lòng tải lên ít nhất 1 hình ảnh",
+        variant: "destructive"
+      });
+      return;
+    }
+
     toast({
       title: "Đăng tin thành công",
       description: "Tin đăng của bạn đã được gửi để duyệt"
     });
+
+    // Navigate to dashboard after successful posting
+    setTimeout(() => {
+      navigate('/dashboard');
+    }, 1500);
   };
   return (
     <div className="min-h-screen bg-background">
@@ -262,6 +296,14 @@ const Sell = () => {
 
                 <div className="space-y-2">
                   <Label>Hình ảnh *</Label>
+                  <input
+                    type="file"
+                    ref={fileInputRef}
+                    onChange={handleImageUpload}
+                    multiple
+                    accept="image/*"
+                    className="hidden"
+                  />
                   <div className="border-2 border-dashed border-muted-foreground/25 rounded-lg p-8 text-center">
                     <div className="space-y-4">
                       <div className="flex justify-center">
@@ -275,12 +317,34 @@ const Sell = () => {
                           Kéo thả hoặc click để chọn ảnh (tối đa 10 ảnh)
                         </p>
                       </div>
-                      <Button variant="outline">
+                      <Button variant="outline" onClick={handleImageSelect}>
                         <Camera className="h-4 w-4 mr-2" />
                         Chọn ảnh
                       </Button>
                     </div>
                   </div>
+                  
+                  {selectedImages.length > 0 && (
+                    <div className="grid grid-cols-2 md:grid-cols-4 gap-4 mt-4">
+                      {selectedImages.map((image, index) => (
+                        <div key={index} className="relative">
+                          <img
+                            src={URL.createObjectURL(image)}
+                            alt={`Preview ${index + 1}`}
+                            className="w-full h-24 object-cover rounded-lg"
+                          />
+                          <Button
+                            variant="destructive"
+                            size="sm"
+                            className="absolute -top-2 -right-2 h-6 w-6 rounded-full p-0"
+                            onClick={() => removeImage(index)}
+                          >
+                            <X className="h-3 w-3" />
+                          </Button>
+                        </div>
+                      ))}
+                    </div>
+                  )}
                 </div>
 
                 <div className="flex justify-end space-x-4 pt-6">
