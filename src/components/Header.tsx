@@ -56,7 +56,7 @@ const Header = () => {
                   </Link>
                 </Button>
                 <Button variant="hero" asChild className="hidden md:flex">
-                  <Link to="/listings/new">Đăng tin</Link>
+                  <Link to="/ban">Đăng tin</Link>
                 </Button>
               </>
             ) : (

@@ -288,7 +288,7 @@ export default function Dashboard() {
           </CardHeader>
           <CardContent className="space-y-3">
             <Button asChild className="w-full justify-start">
-              <Link to="/listings/new">
+              <Link to="/ban">
                 <Plus className="mr-2 h-4 w-4" />
                 Đăng tin bất động sản
               </Link>
@@ -368,7 +368,7 @@ export default function Dashboard() {
               </p>
               <div className="mt-6">
                 <Button asChild>
-                  <Link to="/listings/new">
+                  <Link to="/ban">
                     <Plus className="mr-2 h-4 w-4" />
                     Tạo tin đăng mới
                   </Link>

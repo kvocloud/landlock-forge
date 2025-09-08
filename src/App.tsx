@@ -15,6 +15,7 @@ import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
 import Listings from "./pages/Listings";
 import Profile from "./pages/Profile";
+import Wallet from "./pages/Wallet";
 import { DashboardLayout } from "./components/layout/DashboardLayout";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 
@@ -46,6 +47,7 @@ const App = () => (
               <Route path="/dashboard" element={<Dashboard />} />
               <Route path="/listings" element={<Listings />} />
               <Route path="/profile" element={<Profile />} />
+              <Route path="/wallet" element={<Wallet />} />
             </Route>
             
             {/* Catch-all route */}
