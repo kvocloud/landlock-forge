@@ -4,10 +4,10 @@ import { Input } from "@/components/ui/input";
 
 const Footer = () => {
   const footerLinks = {
-    "For Buyers": ["Search Properties", "Featured Listings", "Property Alerts", "Buying Guide", "Mortgage Calculator"],
-    "For Sellers": ["List Your Property", "Property Valuation", "Selling Guide", "Marketing Services", "Agent Network"],
-    "Company": ["About Us", "Our Team", "Careers", "Press", "Contact"],
-    "Resources": ["Blog", "Market Reports", "Legal Info", "Privacy Policy", "Terms of Service"]
+    "Dành cho người mua": ["Tìm kiếm BĐS", "Tin nổi bật", "Thông báo BĐS", "Hướng dẫn mua", "Tính toán vay"],
+    "Dành cho người bán": ["Đăng tin BĐS", "Định giá BĐS", "Hướng dẫn bán", "Dịch vụ marketing", "Mạng lưới môi giới"],
+    "Công ty": ["Về chúng tôi", "Đội ngũ", "Tuyển dụng", "Báo chí", "Liên hệ"],
+    "Tài nguyên": ["Blog", "Báo cáo thị trường", "Thông tin pháp lý", "Chính sách bảo mật", "Điều khoản dịch vụ"]
   };
 
   return (
@@ -22,14 +22,14 @@ const Footer = () => {
                 EstateHub
               </div>
               <p className="text-muted-foreground mb-6 leading-relaxed">
-                Vietnam's leading real estate platform, connecting buyers and sellers with premium properties across the country. Your trusted partner in finding the perfect home.
+                Nền tảng bất động sản hàng đầu Việt Nam, kết nối người mua và người bán với các bất động sản cao cấp trên toàn quốc. Đối tác đáng tin cậy của bạn trong việc tìm kiếm ngôi nhà hoàn hảo.
               </p>
               
               {/* Contact Info */}
               <div className="space-y-3">
                 <div className="flex items-center text-muted-foreground">
                   <MapPin className="h-4 w-4 mr-3" />
-                  <span>123 Nguyen Hue, District 1, Ho Chi Minh City</span>
+                  <span>123 Nguyễn Huệ, Quận 1, TP. Hồ Chí Minh</span>
                 </div>
                 <div className="flex items-center text-muted-foreground">
                   <Phone className="h-4 w-4 mr-3" />
@@ -80,17 +80,17 @@ const Footer = () => {
 
             {/* Newsletter */}
             <div className="lg:col-span-2">
-              <h3 className="font-semibold mb-4">Stay Updated</h3>
+              <h3 className="font-semibold mb-4">Nhận thông tin mới</h3>
               <p className="text-muted-foreground text-sm mb-4">
-                Get the latest property listings and market insights delivered to your inbox.
+                Nhận tin tức mới nhất về bất động sản và thông tin thị trường qua email.
               </p>
               <div className="space-y-3">
                 <Input
-                  placeholder="Enter your email"
+                  placeholder="Nhập email của bạn"
                   className="bg-background"
                 />
                 <Button variant="hero" className="w-full">
-                  Subscribe
+                  Đăng ký
                 </Button>
               </div>
             </div>
@@ -101,12 +101,12 @@ const Footer = () => {
         <div className="border-t py-6">
           <div className="flex flex-col md:flex-row items-center justify-between">
             <div className="text-muted-foreground text-sm">
-              © 2024 EstateHub Vietnam. All rights reserved.
+              © 2024 EstateHub Vietnam. Tất cả quyền được bảo lưu.
             </div>
             <div className="flex items-center space-x-6 mt-4 md:mt-0 text-sm text-muted-foreground">
-              <a href="#" className="hover:text-primary transition-colors">Privacy Policy</a>
-              <a href="#" className="hover:text-primary transition-colors">Terms of Service</a>
-              <a href="#" className="hover:text-primary transition-colors">Cookie Policy</a>
+              <a href="#" className="hover:text-primary transition-colors">Chính sách bảo mật</a>
+              <a href="#" className="hover:text-primary transition-colors">Điều khoản dịch vụ</a>
+              <a href="#" className="hover:text-primary transition-colors">Chính sách cookie</a>
             </div>
           </div>
         </div>

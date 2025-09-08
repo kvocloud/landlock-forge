@@ -1,3 +1,4 @@
+import { useState } from "react";
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
 import { Button } from "@/components/ui/button";
@@ -7,8 +8,55 @@ import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
 import { Upload, Camera, MapPin, DollarSign } from "lucide-react";
+import { useToast } from "@/components/ui/use-toast";
 
 const Sell = () => {
+  const { toast } = useToast();
+  const [formData, setFormData] = useState({
+    listingType: "",
+    title: "",
+    propertyType: "",
+    province: "",
+    district: "",
+    ward: "",
+    address: "",
+    price: "",
+    area: "",
+    bedrooms: "",
+    bathrooms: "",
+    description: ""
+  });
+
+  const handleInputChange = (field: string, value: string) => {
+    setFormData(prev => ({ ...prev, [field]: value }));
+  };
+
+  const handleSaveDraft = () => {
+    toast({
+      title: "Lưu nháp thành công",
+      description: "Tin đăng đã được lưu vào nháp"
+    });
+  };
+
+  const handlePostListing = () => {
+    // Basic validation
+    const requiredFields = ['listingType', 'title', 'propertyType', 'province', 'district', 'address', 'price', 'area', 'description'];
+    const missingFields = requiredFields.filter(field => !formData[field as keyof typeof formData]);
+    
+    if (missingFields.length > 0) {
+      toast({
+        title: "Thông tin chưa đầy đủ",
+        description: "Vui lòng điền đầy đủ các thông tin bắt buộc",
+        variant: "destructive"
+      });
+      return;
+    }
+
+    toast({
+      title: "Đăng tin thành công",
+      description: "Tin đăng của bạn đã được gửi để duyệt"
+    });
+  };
   return (
     <div className="min-h-screen bg-background">
       <Header />
@@ -40,7 +88,7 @@ const Sell = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-6">
                   <div className="space-y-2">
                     <Label htmlFor="listing-type">Loại tin đăng *</Label>
-                    <Select>
+                    <Select value={formData.listingType} onValueChange={(value) => handleInputChange('listingType', value)}>
                       <SelectTrigger>
                         <SelectValue placeholder="Chọn loại tin" />
                       </SelectTrigger>
@@ -57,12 +105,14 @@ const Sell = () => {
                     <Input 
                       id="title" 
                       placeholder="VD: Bán căn hộ 3PN tại Landmark 81..."
+                      value={formData.title}
+                      onChange={(e) => handleInputChange('title', e.target.value)}
                     />
                   </div>
                   
                   <div className="space-y-2">
                     <Label htmlFor="property-type">Loại bất động sản *</Label>
-                    <Select>
+                    <Select value={formData.propertyType} onValueChange={(value) => handleInputChange('propertyType', value)}>
                       <SelectTrigger>
                         <SelectValue placeholder="Chọn loại BĐS" />
                       </SelectTrigger>
@@ -80,7 +130,7 @@ const Sell = () => {
                 <div className="grid grid-cols-1 md:grid-cols-3 gap-4">
                   <div className="space-y-2">
                     <Label htmlFor="province">Tỉnh/Thành phố *</Label>
-                    <Select>
+                    <Select value={formData.province} onValueChange={(value) => handleInputChange('province', value)}>
                       <SelectTrigger>
                         <SelectValue placeholder="Chọn tỉnh/thành" />
                       </SelectTrigger>
@@ -96,7 +146,7 @@ const Sell = () => {
 
                   <div className="space-y-2">
                     <Label htmlFor="district">Quận/Huyện *</Label>
-                    <Select>
+                    <Select value={formData.district} onValueChange={(value) => handleInputChange('district', value)}>
                       <SelectTrigger>
                         <SelectValue placeholder="Chọn quận/huyện" />
                       </SelectTrigger>
@@ -112,7 +162,7 @@ const Sell = () => {
 
                   <div className="space-y-2">
                     <Label htmlFor="ward">Phường/Xã</Label>
-                    <Select>
+                    <Select value={formData.ward} onValueChange={(value) => handleInputChange('ward', value)}>
                       <SelectTrigger>
                         <SelectValue placeholder="Chọn phường/xã" />
                       </SelectTrigger>
@@ -133,6 +183,8 @@ const Sell = () => {
                       id="address" 
                       placeholder="Số nhà, tên đường..."
                       className="pl-10"
+                      value={formData.address}
+                      onChange={(e) => handleInputChange('address', e.target.value)}
                     />
                   </div>
                 </div>
@@ -147,6 +199,8 @@ const Sell = () => {
                         type="number"
                         placeholder="0"
                         className="pl-10"
+                        value={formData.price}
+                        onChange={(e) => handleInputChange('price', e.target.value)}
                       />
                     </div>
                   </div>
@@ -157,12 +211,14 @@ const Sell = () => {
                       id="area" 
                       type="number"
                       placeholder="0"
+                      value={formData.area}
+                      onChange={(e) => handleInputChange('area', e.target.value)}
                     />
                   </div>
 
                   <div className="space-y-2">
                     <Label htmlFor="bedrooms">Phòng ngủ</Label>
-                    <Select>
+                    <Select value={formData.bedrooms} onValueChange={(value) => handleInputChange('bedrooms', value)}>
                       <SelectTrigger>
                         <SelectValue placeholder="0" />
                       </SelectTrigger>
@@ -178,7 +234,7 @@ const Sell = () => {
 
                   <div className="space-y-2">
                     <Label htmlFor="bathrooms">Phòng tắm</Label>
-                    <Select>
+                    <Select value={formData.bathrooms} onValueChange={(value) => handleInputChange('bathrooms', value)}>
                       <SelectTrigger>
                         <SelectValue placeholder="0" />
                       </SelectTrigger>
@@ -199,6 +255,8 @@ const Sell = () => {
                     id="description"
                     placeholder="Mô tả chi tiết về bất động sản: vị trí, thiết kế, tiện ích..."
                     rows={5}
+                    value={formData.description}
+                    onChange={(e) => handleInputChange('description', e.target.value)}
                   />
                 </div>
 
@@ -226,10 +284,10 @@ const Sell = () => {
                 </div>
 
                 <div className="flex justify-end space-x-4 pt-6">
-                  <Button variant="outline">
+                  <Button variant="outline" onClick={handleSaveDraft}>
                     Lưu nháp
                   </Button>
-                  <Button>
+                  <Button onClick={handlePostListing}>
                     Đăng tin
                   </Button>
                 </div>
