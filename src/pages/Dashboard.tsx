@@ -6,6 +6,7 @@ import { Button } from '@/components/ui/button';
 import { Badge } from '@/components/ui/badge';
 import { Table, TableBody, TableCell, TableHead, TableHeader, TableRow } from '@/components/ui/table';
 import { supabase } from '@/integrations/supabase/client';
+import { toast } from '@/hooks/use-toast';
 import {
   Building,
   Clock,
@@ -44,7 +45,7 @@ interface Listing {
 }
 
 export default function Dashboard() {
-  const { profile } = useAuthStore();
+  const { profile, isAuthenticated } = useAuthStore();
   const [stats, setStats] = useState<DashboardStats>({
     publishedCount: 0,
     pendingCount: 0,
@@ -64,7 +65,14 @@ export default function Dashboard() {
   }, [profile]);
 
   const loadDashboardData = async () => {
+    if (!profile?.user_id) {
+      console.log('No user_id found in loadDashboardData');
+      setLoading(false);
+      return;
+    }
+
     try {
+      console.log('Loading dashboard data for user:', profile.user_id);
       // Load listings stats
       const { data: listings } = await supabase
         .from('listings')
@@ -113,8 +121,13 @@ export default function Dashboard() {
         ...prev,
         newLeads: leadsCount || 0,
       }));
-    } catch (error) {
+      } catch (error) {
       console.error('Error loading dashboard data:', error);
+      toast({
+        variant: 'destructive',
+        title: 'Lỗi',
+        description: 'Không thể tải dữ liệu dashboard. Vui lòng thử lại.',
+      });
     } finally {
       setLoading(false);
     }

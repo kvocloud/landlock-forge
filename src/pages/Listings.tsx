@@ -41,24 +41,44 @@ interface Listing {
 }
 
 export default function Listings() {
-  const { profile } = useAuthStore();
+  const { profile, isAuthenticated } = useAuthStore();
   const [listings, setListings] = useState<Listing[]>([]);
   const [loading, setLoading] = useState(true);
   const [searchQuery, setSearchQuery] = useState('');
   const [statusFilter, setStatusFilter] = useState('all');
 
+  // Debug logging
+  console.log('Profile:', profile);
+  console.log('Authenticated:', isAuthenticated);
+
   useEffect(() => {
-    if (profile) {
+    if (profile?.user_id) {
       loadListings();
     }
-  }, [profile]);
+  }, [profile?.user_id]);
+
+  useEffect(() => {
+    if (profile?.user_id) {
+      loadListings();
+    }
+  }, [statusFilter]);
 
   const loadListings = async () => {
     try {
+      setLoading(true);
+      
+      if (!profile?.user_id) {
+        console.log('No user_id found, skipping load');
+        setLoading(false);
+        return;
+      }
+
+      console.log('Loading listings for user:', profile.user_id);
+      
       let query = supabase
         .from('listings')
         .select('*')
-        .eq('user_id', profile?.user_id)
+        .eq('user_id', profile.user_id)
         .order('updated_at', { ascending: false });
 
       if (statusFilter !== 'all') {
@@ -67,8 +87,12 @@ export default function Listings() {
 
       const { data, error } = await query;
 
-      if (error) throw error;
+      if (error) {
+        console.error('Supabase error:', error);
+        throw error;
+      }
 
+      console.log('Loaded listings:', data);
       setListings(data || []);
     } catch (error) {
       console.error('Error loading listings:', error);
@@ -181,6 +205,7 @@ export default function Listings() {
                 <SelectItem value="all">Tất cả</SelectItem>
                 <SelectItem value="DRAFT">Nháp</SelectItem>
                 <SelectItem value="PENDING">Chờ duyệt</SelectItem>
+                <SelectItem value="APPROVED">Đã duyệt</SelectItem>
                 <SelectItem value="PUBLISHED">Đã đăng</SelectItem>
                 <SelectItem value="SOLD">Đã bán</SelectItem>
               </SelectContent>

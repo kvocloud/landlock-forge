@@ -8,14 +8,18 @@ import { Input } from "@/components/ui/input";
 import { Textarea } from "@/components/ui/textarea";
 import { Select, SelectContent, SelectItem, SelectTrigger, SelectValue } from "@/components/ui/select";
 import { Label } from "@/components/ui/label";
-import { Upload, Camera, MapPin, DollarSign, X } from "lucide-react";
+import { Upload, Camera, MapPin, DollarSign, X, Loader2 } from "lucide-react";
 import { useToast } from "@/hooks/use-toast";
+import { supabase } from "@/integrations/supabase/client";
+import { useAuthStore } from "@/store/authStore";
 
 const Sell = () => {
   const { toast } = useToast();
   const navigate = useNavigate();
+  const { isAuthenticated, profile } = useAuthStore();
   const fileInputRef = useRef<HTMLInputElement>(null);
   const [selectedImages, setSelectedImages] = useState<File[]>([]);
+  const [isSubmitting, setIsSubmitting] = useState(false);
   const [formData, setFormData] = useState({
     listingType: "",
     title: "",
@@ -51,14 +55,78 @@ const Sell = () => {
     setSelectedImages(prev => prev.filter((_, i) => i !== index));
   };
 
-  const handleSaveDraft = () => {
-    toast({
-      title: "Lưu nháp thành công",
-      description: "Tin đăng đã được lưu vào nháp"
-    });
+  const handleSaveDraft = async () => {
+    if (!isAuthenticated || !profile) {
+      toast({
+        title: "Vui lòng đăng nhập",
+        description: "Bạn cần đăng nhập để lưu tin đăng",
+        variant: "destructive"
+      });
+      navigate('/auth');
+      return;
+    }
+
+    setIsSubmitting(true);
+    
+    try {
+      const listingData = {
+        user_id: profile.user_id,
+        title: formData.title || 'Tin đăng nháp',
+        description: formData.description,
+        type: mapListingType(formData.listingType),
+        category: formData.propertyType,
+        price: parseFloat(formData.price) || 0,
+        area: parseFloat(formData.area) || 0,
+        address: formData.address,
+        province: formData.province,
+        district: formData.district,
+        ward: formData.ward,
+        status: 'DRAFT',
+        images: []
+      };
+
+      const { error } = await supabase
+        .from('listings')
+        .insert([listingData]);
+
+      if (error) throw error;
+
+      toast({
+        title: "Lưu nháp thành công",
+        description: "Tin đăng đã được lưu vào nháp"
+      });
+    } catch (error) {
+      console.error('Error saving draft:', error);
+      toast({
+        title: "Lỗi lưu nháp",
+        description: "Không thể lưu tin đăng. Vui lòng thử lại.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
 
-  const handlePostListing = () => {
+  const mapListingType = (type: string) => {
+    switch (type) {
+      case 'sell': return 'FOR_SALE';
+      case 'rent': return 'FOR_RENT';
+      case 'buy': return 'WANTED';
+      default: return 'FOR_SALE';
+    }
+  };
+
+  const handlePostListing = async () => {
+    if (!isAuthenticated || !profile) {
+      toast({
+        title: "Vui lòng đăng nhập",
+        description: "Bạn cần đăng nhập để đăng tin",
+        variant: "destructive"
+      });
+      navigate('/auth');
+      return;
+    }
+
     // Basic validation
     const requiredFields = ['listingType', 'title', 'propertyType', 'province', 'district', 'address', 'price', 'area', 'description'];
     const missingFields = requiredFields.filter(field => !formData[field as keyof typeof formData]);
@@ -81,15 +149,61 @@ const Sell = () => {
       return;
     }
 
-    toast({
-      title: "Đăng tin thành công",
-      description: "Tin đăng của bạn đã được gửi để duyệt"
-    });
+    setIsSubmitting(true);
 
-    // Navigate to dashboard after successful posting
-    setTimeout(() => {
-      navigate('/dashboard');
-    }, 1500);
+    try {
+      // Convert images to base64 for now (in production, upload to storage)
+      const imageUrls = await Promise.all(
+        selectedImages.map(async (file) => {
+          return new Promise<string>((resolve) => {
+            const reader = new FileReader();
+            reader.onloadend = () => resolve(reader.result as string);
+            reader.readAsDataURL(file);
+          });
+        })
+      );
+
+      const listingData = {
+        user_id: profile.user_id,
+        title: formData.title,
+        description: formData.description,
+        type: mapListingType(formData.listingType),
+        category: formData.propertyType,
+        price: parseFloat(formData.price),
+        area: parseFloat(formData.area),
+        address: formData.address,
+        province: formData.province,
+        district: formData.district,
+        ward: formData.ward,
+        status: 'PENDING',
+        images: imageUrls
+      };
+
+      const { error } = await supabase
+        .from('listings')
+        .insert([listingData]);
+
+      if (error) throw error;
+
+      toast({
+        title: "Đăng tin thành công",
+        description: "Tin đăng của bạn đã được gửi để duyệt"
+      });
+
+      // Navigate to dashboard after successful posting
+      setTimeout(() => {
+        navigate('/dashboard');
+      }, 1500);
+    } catch (error) {
+      console.error('Error posting listing:', error);
+      toast({
+        title: "Lỗi đăng tin",
+        description: "Không thể đăng tin. Vui lòng thử lại.",
+        variant: "destructive"
+      });
+    } finally {
+      setIsSubmitting(false);
+    }
   };
   return (
     <div className="min-h-screen bg-background">
@@ -348,11 +462,25 @@ const Sell = () => {
                 </div>
 
                 <div className="flex justify-end space-x-4 pt-6">
-                  <Button variant="outline" onClick={handleSaveDraft}>
-                    Lưu nháp
+                  <Button variant="outline" onClick={handleSaveDraft} disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Đang lưu...
+                      </>
+                    ) : (
+                      'Lưu nháp'
+                    )}
                   </Button>
-                  <Button onClick={handlePostListing}>
-                    Đăng tin
+                  <Button onClick={handlePostListing} disabled={isSubmitting}>
+                    {isSubmitting ? (
+                      <>
+                        <Loader2 className="mr-2 h-4 w-4 animate-spin" />
+                        Đang đăng...
+                      </>
+                    ) : (
+                      'Đăng tin'
+                    )}
                   </Button>
                 </div>
               </CardContent>
