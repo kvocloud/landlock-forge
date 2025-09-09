@@ -102,7 +102,12 @@ export default function Profile() {
                 </AvatarFallback>
               </Avatar>
               
-              <Button variant="outline" size="sm">
+              <Button variant="outline" size="sm" onClick={() => {
+                toast({
+                  title: "Tính năng sắp ra mắt",
+                  description: "Chức năng đổi ảnh đại diện sẽ sớm được cập nhật"
+                });
+              }}>
                 <Camera className="mr-2 h-4 w-4" />
                 Đổi ảnh đại diện
               </Button>

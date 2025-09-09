@@ -276,7 +276,7 @@ export default function Dashboard() {
                 </Link>
               </Button>
               <Button variant="outline" size="sm" asChild>
-                <Link to="/wallet/transactions">Lịch sử</Link>
+                <Link to="/wallet">Lịch sử</Link>
               </Button>
             </div>
           </CardContent>
@@ -303,7 +303,7 @@ export default function Dashboard() {
             
             {profile?.role === 'ADMIN' && (
               <Button variant="outline" asChild className="w-full justify-start">
-                <Link to="/admin/moderation">
+                <Link to="/listings">
                   <ShieldCheck className="mr-2 h-4 w-4" />
                   Kiểm duyệt tin đăng ({stats.pendingCount})
                 </Link>
@@ -339,7 +339,7 @@ export default function Dashboard() {
                 {recentListings.map((listing) => (
                   <TableRow key={listing.id}>
                     <TableCell>
-                      <Link to={`/listings/${listing.id}`} className="font-medium hover:underline">
+                      <Link to={`/property/${listing.id}`} className="font-medium hover:underline">
                         {listing.title}
                       </Link>
                     </TableCell>

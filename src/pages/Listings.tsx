@@ -144,7 +144,7 @@ export default function Listings() {
           </p>
         </div>
         <Button asChild>
-          <Link to="/listings/new">
+          <Link to="/ban">
             <Plus className="mr-2 h-4 w-4" />
             Tạo tin mới
           </Link>
@@ -261,7 +261,7 @@ export default function Listings() {
                             </Link>
                           </DropdownMenuItem>
                           <DropdownMenuItem asChild>
-                            <Link to={`/listings/${listing.id}/edit`}>
+                            <Link to={`/ban?edit=${listing.id}`}>
                               <Edit className="mr-2 h-4 w-4" />
                               Chỉnh sửa
                             </Link>
@@ -295,7 +295,7 @@ export default function Listings() {
               {!searchQuery && (
                 <div className="mt-6">
                   <Button asChild>
-                    <Link to="/listings/new">
+                    <Link to="/ban">
                       <Plus className="mr-2 h-4 w-4" />
                       Tạo tin đăng mới
                     </Link>

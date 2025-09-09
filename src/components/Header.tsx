@@ -3,9 +3,38 @@ import { Button } from "@/components/ui/button";
 import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
+import { toast } from "@/hooks/use-toast";
 
 const Header = () => {
   const { isAuthenticated, profile } = useAuthStore();
+  
+  const handleHeartClick = () => {
+    toast({
+      title: "Tính năng sắp ra mắt",
+      description: "Danh sách yêu thích sẽ sớm được cập nhật"
+    });
+  };
+
+  const handleNotificationClick = () => {
+    toast({
+      title: "Tính năng sắp ra mắt", 
+      description: "Thông báo sẽ sớm được cập nhật"
+    });
+  };
+
+  const handleMobileSearch = () => {
+    toast({
+      title: "Tính năng sắp ra mắt",
+      description: "Tìm kiếm di động sẽ sớm được cập nhật"
+    });
+  };
+
+  const handleMobileMenu = () => {
+    toast({
+      title: "Tính năng sắp ra mắt",
+      description: "Menu di động sẽ sớm được cập nhật" 
+    });
+  };
   return (
     <header className="sticky top-0 z-50 w-full border-b bg-card/80 backdrop-blur-md">
       <div className="container mx-auto px-4">
@@ -38,13 +67,13 @@ const Header = () => {
 
           {/* Actions */}
           <div className="flex items-center space-x-3">
-            <Button variant="ghost" size="icon" className="hidden md:flex">
+            <Button variant="ghost" size="icon" className="hidden md:flex" onClick={handleHeartClick}>
               <Heart className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="icon" className="hidden md:flex">
+            <Button variant="ghost" size="icon" className="hidden md:flex" onClick={handleNotificationClick}>
               <Bell className="h-5 w-5" />
             </Button>
-            <Button variant="ghost" size="icon" className="md:hidden">
+            <Button variant="ghost" size="icon" className="md:hidden" onClick={handleMobileSearch}>
               <Search className="h-5 w-5" />
             </Button>
             {isAuthenticated ? (
@@ -72,7 +101,7 @@ const Header = () => {
                 </Button>
               </>
             )}
-            <Button variant="ghost" size="icon" className="md:hidden">
+            <Button variant="ghost" size="icon" className="md:hidden" onClick={handleMobileMenu}>
               <Menu className="h-5 w-5" />
             </Button>
           </div>
