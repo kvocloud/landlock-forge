@@ -35,6 +35,7 @@ const App = () => (
             <Route path="/mua" element={<Buy />} />
             <Route path="/thue" element={<Rent />} />
             <Route path="/ban" element={<Sell />} />
+            <Route path="/listings/new" element={<Sell />} />
             <Route path="/moi-gioi" element={<Agents />} />
             <Route path="/auth" element={<Auth />} />
             
@@ -48,6 +49,7 @@ const App = () => (
               <Route path="/listings" element={<Listings />} />
               <Route path="/profile" element={<Profile />} />
               <Route path="/wallet" element={<Wallet />} />
+              <Route path="/wallet/transactions" element={<Wallet />} />
             </Route>
             
             {/* Catch-all route */}
