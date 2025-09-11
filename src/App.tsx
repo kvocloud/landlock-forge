@@ -10,6 +10,7 @@ import PropertyDetail from "./pages/PropertyDetail";
 import Buy from "./pages/Buy";
 import Rent from "./pages/Rent";
 import Sell from "./pages/Sell";
+import Search from "./pages/Search";
 import Agents from "./pages/Agents";
 import Auth from "./pages/Auth";
 import Dashboard from "./pages/Dashboard";
@@ -36,6 +37,7 @@ const App = () => (
             <Route path="/thue" element={<Rent />} />
             <Route path="/ban" element={<Sell />} />
             <Route path="/listings/new" element={<Sell />} />
+            <Route path="/search" element={<Search />} />
             <Route path="/moi-gioi" element={<Agents />} />
             <Route path="/auth" element={<Auth />} />
             

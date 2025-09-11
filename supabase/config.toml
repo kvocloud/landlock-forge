@@ -1,1 +1,46 @@
 project_id = "ppgmfqqwdqqflglzecxu"
+
+[api]
+enabled = true
+port = 54321
+schemas = ["public", "graphql_public"]
+extra_search_path = ["public", "extensions"]
+max_rows = 1000
+
+[auth]
+enabled = true
+port = 54324
+site_url = "http://localhost:3000"
+additional_redirect_urls = ["https://localhost:3000"]
+jwt_expiry = 3600
+refresh_token_rotation_enabled = true
+security_update_password_require_reauthentication = true
+enable_signup = true
+
+[functions.listings-search]
+verify_jwt = false
+
+[functions.listings-export]  
+verify_jwt = false
+
+[functions.geo-data]
+verify_jwt = false
+
+[db]
+port = 54322
+
+[studio]
+enabled = true
+port = 54323
+
+[inbucket]
+enabled = true
+port = 54324
+
+[storage]
+enabled = true
+port = 54325
+
+[edge_runtime]
+enabled = true
+port = 54326

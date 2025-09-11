@@ -50,7 +50,16 @@ const SearchFilters = () => {
             />
           </div>
         </div>
-        <Button variant="hero" className="h-12 px-8" onClick={searchProperties}>
+        <Button variant="hero" className="h-12 px-8" onClick={() => {
+          // Navigate to search page with current filters
+          const params = new URLSearchParams();
+          Object.entries(filters).forEach(([key, value]) => {
+            if (value && value !== '') {
+              params.append(key, value);
+            }
+          });
+          window.location.href = `/search?${params}`;
+        }}>
           <Search className="h-5 w-5 mr-2" />
           Tìm Kiếm BĐS
         </Button>
