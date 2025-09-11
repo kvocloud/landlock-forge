@@ -42,10 +42,10 @@ const Search = () => {
   
   // Search filters
   const [filters, setFilters] = useState({
-    type: '',
-    province_code: '',
-    district_code: '',
-    ward_code: '',
+    type: 'all',
+    province_code: 'all',
+    district_code: 'all',
+    ward_code: 'all',
     min_price: '',
     max_price: '',
     q: '',
@@ -76,9 +76,9 @@ const Search = () => {
 
   // Load districts when province changes
   useEffect(() => {
-    if (filters.province_code) {
+    if (filters.province_code && filters.province_code !== 'all') {
       loadDistricts(filters.province_code);
-      setFilters(prev => ({ ...prev, district_code: '', ward_code: '' }));
+      setFilters(prev => ({ ...prev, district_code: 'all', ward_code: 'all' }));
       setWards([]);
     } else {
       setDistricts([]);
@@ -88,9 +88,9 @@ const Search = () => {
 
   // Load wards when district changes
   useEffect(() => {
-    if (filters.district_code) {
+    if (filters.district_code && filters.district_code !== 'all') {
       loadWards(filters.district_code);
-      setFilters(prev => ({ ...prev, ward_code: '' }));
+      setFilters(prev => ({ ...prev, ward_code: 'all' }));
     } else {
       setWards([]);
     }
@@ -129,7 +129,7 @@ const Search = () => {
       const params = new URLSearchParams();
       
       Object.entries(filters).forEach(([key, value]) => {
-        if (value && value !== '') {
+        if (value && value !== '' && value !== 'all') {
           params.append(key, value.toString());
         }
       });
@@ -170,7 +170,7 @@ const Search = () => {
       };
       
       Object.entries(exportFilters).forEach(([key, value]) => {
-        if (value && value !== '') {
+        if (value && value !== '' && value !== 'all') {
           params.append(key, value.toString());
         }
       });
@@ -207,10 +207,10 @@ const Search = () => {
 
   const clearFilters = () => {
     setFilters({
-      type: '',
-      province_code: '',
-      district_code: '',
-      ward_code: '',
+      type: 'all',
+      province_code: 'all',
+      district_code: 'all',
+      ward_code: 'all',
       min_price: '',
       max_price: '',
       q: '',
@@ -275,7 +275,7 @@ const Search = () => {
                 </div>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Tất cả loại</SelectItem>
+                <SelectItem value="all">Tất cả loại</SelectItem>
                 <SelectItem value="FOR_SALE">Bán</SelectItem>
                 <SelectItem value="FOR_RENT">Thuê</SelectItem>
               </SelectContent>
@@ -290,7 +290,7 @@ const Search = () => {
                 </div>
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Tất cả tỉnh/TP</SelectItem>
+                <SelectItem value="all">Tất cả tỉnh/TP</SelectItem>
                 {provinces.map((province) => (
                   <SelectItem key={province.code} value={province.code}>
                     {province.name}
@@ -305,7 +305,7 @@ const Search = () => {
                 <SelectValue placeholder="Quận/Huyện" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Tất cả quận/huyện</SelectItem>
+                <SelectItem value="all">Tất cả quận/huyện</SelectItem>
                 {districts.map((district) => (
                   <SelectItem key={district.code} value={district.code}>
                     {district.name}
@@ -320,7 +320,7 @@ const Search = () => {
                 <SelectValue placeholder="Phường/Xã" />
               </SelectTrigger>
               <SelectContent>
-                <SelectItem value="">Tất cả phường/xã</SelectItem>
+                <SelectItem value="all">Tất cả phường/xã</SelectItem>
                 {wards.map((ward) => (
                   <SelectItem key={ward.code} value={ward.code}>
                     {ward.name}
