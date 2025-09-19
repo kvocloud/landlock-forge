@@ -42,7 +42,7 @@ const Header = () => {
           {/* Logo */}
           <div className="flex items-center space-x-4">
             <Link to="/" className="text-2xl font-bold bg-gradient-hero bg-clip-text text-transparent">
-              BĐS Hub
+              BĐS VN
             </Link>
           </div>
 
@@ -61,8 +61,9 @@ const Header = () => {
           <nav className="hidden lg:flex items-center space-x-6">
             <Link to="/mua" className="text-foreground/80 hover:text-primary transition-colors">Mua</Link>
             <Link to="/thue" className="text-foreground/80 hover:text-primary transition-colors">Thuê</Link>
-            <Link to="/ban" className="text-foreground/80 hover:text-primary transition-colors">Bán</Link>
+            <Link to="/ban" className="text-foreground/80 hover:text-primary transition-colors">Bán Sell</Link>
             <Link to="/moi-gioi" className="text-foreground/80 hover:text-primary transition-colors">Môi giới</Link>
+            <Link to="/hop-dong-mua-ban" className="text-foreground/80 hover:text-primary transition-colors">Hợp đồng </Link>
           </nav>
 
           {/* Actions */}
