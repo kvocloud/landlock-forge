@@ -64,6 +64,8 @@ const Header = () => {
             <Link to="/ban" className="text-foreground/80 hover:text-primary transition-colors">Bán Sell</Link>
             <Link to="/moi-gioi" className="text-foreground/80 hover:text-primary transition-colors">Môi giới</Link>
             <Link to="/hop-dong-mua-ban" className="text-foreground/80 hover:text-primary transition-colors">Hợp đồng </Link>
+            <Link to="/tools/loan" className="text-foreground/80 hover:text-primary transition-colors">Lãi suất vay </Link>
+            <Link to="/tools/collateral" className="text-foreground/80 hover:text-primary transition-colors">Tài sản đảm bảo </Link>
           </nav>
 
           {/* Actions */}
@@ -111,5 +113,6 @@ const Header = () => {
     </header>
   );
 };
+
 
 export default Header;
