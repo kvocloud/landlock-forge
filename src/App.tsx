@@ -19,6 +19,7 @@ import Profile from "./pages/Profile";
 import Wallet from "./pages/Wallet";
 import { DashboardLayout } from "./components/layout/DashboardLayout";
 import { ProtectedRoute } from "./components/ProtectedRoute";
+import ContractTemplate from "@/pages/ContractTemplate";
 
 const queryClient = new QueryClient();
 
@@ -30,6 +31,7 @@ const App = () => (
         <Sonner />
         <BrowserRouter>
           <Routes>
+            
             {/* Public Routes */}
             <Route path="/" element={<Index />} />
             <Route path="/property/:id" element={<PropertyDetail />} />
@@ -40,7 +42,7 @@ const App = () => (
             <Route path="/search" element={<Search />} />
             <Route path="/moi-gioi" element={<Agents />} />
             <Route path="/auth" element={<Auth />} />
-            
+            <Route path="/hop-dong-mua-ban" element={<ContractTemplate />} />
             {/* Protected Dashboard Routes */}
             <Route element={
               <ProtectedRoute>
@@ -52,7 +54,9 @@ const App = () => (
               <Route path="/profile" element={<Profile />} />
               <Route path="/wallet" element={<Wallet />} />
               <Route path="/wallet/transactions" element={<Wallet />} />
+              <Route path="/hop-dong-mua-ban" element={<ContractTemplate />} />
             </Route>
+            <Route element={<DashboardLayout />}></Route>
             
             {/* Catch-all route */}
             <Route path="*" element={<NotFound />} />
