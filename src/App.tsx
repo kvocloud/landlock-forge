@@ -20,6 +20,8 @@ import Wallet from "./pages/Wallet";
 import { DashboardLayout } from "./components/layout/DashboardLayout";
 import { ProtectedRoute } from "./components/ProtectedRoute";
 import ContractTemplate from "@/pages/ContractTemplate";
+import LoanCalculator from "@/pages/tools/LoanCalculator";
+import CollateralEstimator from "@/pages/tools/CollateralEstimator";
 
 const queryClient = new QueryClient();
 
@@ -43,6 +45,8 @@ const App = () => (
             <Route path="/moi-gioi" element={<Agents />} />
             <Route path="/auth" element={<Auth />} />
             <Route path="/hop-dong-mua-ban" element={<ContractTemplate />} />
+            <Route path="/tools/loan" element={<LoanCalculator />} />
+            <Route path="/tools/collateral" element={<CollateralEstimator />} />
             {/* Protected Dashboard Routes */}
             <Route element={
               <ProtectedRoute>
@@ -68,3 +72,4 @@ const App = () => (
 );
 
 export default App;
+
