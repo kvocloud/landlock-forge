@@ -10,7 +10,10 @@ import { FileText, Download, User, MapPin, DollarSign, Calendar } from "lucide-r
 
 // NEW: libs xuất file
 import { saveAs } from "file-saver";
-import { Document, Packer, Paragraph, TextRun, HeadingLevel } from "docx";
+import {
+  Document, Packer, Paragraph, TextRun, HeadingLevel, AlignmentType,
+  Table, TableRow, TableCell, WidthType, BorderStyle
+} from "docx";
 
 const ContractTemplate = () => {
   const { toast } = useToast();
@@ -183,88 +186,191 @@ const ContractTemplate = () => {
   };
 
   // NEW: Tải PDF (ESM dynamic import để tránh require)
-  const downloadPDF = async () => {
-    if (!printRef.current) return;
-    // render HTML vào vùng ẩn
-    printRef.current.innerHTML = generateContractHTML();
-    const { default: html2pdf } = await import("html2pdf.js"); // nạp lúc chạy
-    const opt = {
-      margin: [10, 10, 10, 10],
-      filename: `hop-dong-mua-ban-nha-dat-${contractData.contractDate}.pdf`,
-      image: { type: "jpeg", quality: 0.98 },
-      html2canvas: { scale: 2, useCORS: true },
-      jsPDF: { unit: "mm", format: "a4", orientation: "portrait" },
-    };
-    await html2pdf().from(printRef.current).set(opt).save();
-    toast({ title: "Thành công", description: "Hợp đồng (PDF) đã được tạo." });
+const downloadPDF = async () => {
+  const { default: html2pdf } = await import("html2pdf.js");
+
+  // Parse lấy phần <body> để tránh lồng <html> trong <div>
+  const parser = new DOMParser();
+  const doc = parser.parseFromString(generateContractHTML(), "text/html");
+
+  // Tạo container tạm (khổ A4 ~ 794x1123px ở 96dpi)
+  const container = document.createElement("div");
+  container.style.width = "794px";
+  container.style.minHeight = "1123px";
+  container.style.background = "#fff";
+  container.style.padding = "0";
+  container.style.margin = "0 auto";
+  container.innerHTML = doc.body.innerHTML; // chỉ nhét nội dung body
+
+  document.body.appendChild(container);
+
+  const opt = {
+    margin: 0,
+    filename: `hop-dong-mua-ban-nha-dat-${contractData.contractDate}.pdf`,
+    image: { type: "jpeg", quality: 0.98 },
+    html2canvas: { scale: 2, useCORS: true, backgroundColor: "#ffffff" },
+    jsPDF: { unit: "pt", format: "a4", orientation: "portrait" },
+    pagebreak: { mode: ["css", "legacy"] },
   };
+
+  await html2pdf().from(container).set(opt).save(); // <— dùng container, KHÔNG dùng printRef
+  document.body.removeChild(container);
+
+  toast({ title: "Thành công", description: "Hợp đồng (PDF) đã được tạo." });
+};
 
   // NEW: Tải DOCX (văn bản để chỉnh trong Word)
   const downloadDOCX = async () => {
-    const P = (t: string) => new Paragraph({ children: [new TextRun(t)] });
-    const doc = new Document({
-      sections: [{
-        children: [
-          new Paragraph({
-            heading: HeadingLevel.HEADING_2,
-            children: [new TextRun({ text: "HỢP ĐỒNG MUA BÁN NHÀ ĐẤT", bold: true })],
-          }),
-          P(`Ngày ký: ${new Date(contractData.contractDate).toLocaleDateString("vi-VN")}`),
-          P(`Địa điểm: ${contractData.propertyAddress || "____________"}`),
-
-          new Paragraph({ spacing: { after: 200 } }),
-
-          new Paragraph({ children: [new TextRun({ text: "BÊN A (BÊN BÁN)", bold: true })] }),
-          P(`Họ và tên: ${contractData.sellerName || "____________"}`),
-          P(`CMND/CCCD: ${contractData.sellerIdCard || "____________"}`),
-          P(`Địa chỉ: ${contractData.sellerAddress || "____________"}`),
-          P(`Số điện thoại: ${contractData.sellerPhone || "____________"}`),
-
-          new Paragraph({ spacing: { after: 150 } }),
-
-          new Paragraph({ children: [new TextRun({ text: "BÊN B (BÊN MUA)", bold: true })] }),
-          P(`Họ và tên: ${contractData.buyerName || "____________"}`),
-          P(`CMND/CCCD: ${contractData.buyerIdCard || "____________"}`),
-          P(`Địa chỉ: ${contractData.buyerAddress || "____________"}`),
-          P(`Số điện thoại: ${contractData.buyerPhone || "____________"}`),
-
-          new Paragraph({ spacing: { after: 150 } }),
-
-          new Paragraph({ children: [new TextRun({ text: "ĐIỀU 1: ĐỐI TƯỢNG MUA BÁN", bold: true })] }),
-          P(`Địa chỉ BĐS: ${contractData.propertyAddress || "____________"}`),
-          P(`Diện tích: ${contractData.propertyArea || "____________"} m²`),
-          P(`Mô tả: ${contractData.propertyDescription || "____________"}`),
-
-          new Paragraph({ spacing: { after: 150 } }),
-
-          new Paragraph({ children: [new TextRun({ text: "ĐIỀU 2: GIÁ BÁN & THANH TOÁN", bold: true })] }),
-          P(`Tổng giá trị: ${contractData.totalPrice ? formatCurrency(contractData.totalPrice) : "____________"}`),
-          P(`Đặt cọc: ${contractData.depositAmount ? formatCurrency(contractData.depositAmount) : "____________"}`),
-          P(`Phương thức thanh toán: ${contractData.paymentTerms || "____________"}`),
-
-          new Paragraph({ spacing: { after: 150 } }),
-
-          new Paragraph({ children: [new TextRun({ text: "ĐIỀU 3: THỜI GIAN GIAO NHẬN", bold: true })] }),
-          P(`Bàn giao: ${contractData.handoverDate ? new Date(contractData.handoverDate).toLocaleDateString("vi-VN") : "____________"}`),
-
-          ...(contractData.additionalTerms
-            ? [
-                new Paragraph({ children: [new TextRun({ text: "ĐIỀU 4: CÁC ĐIỀU KHOẢN KHÁC", bold: true })] }),
-                P(contractData.additionalTerms),
-              ]
-            : []),
-
-          new Paragraph({ spacing: { after: 200 } }),
-          new Paragraph({ children: [new TextRun({ text: "HIỆU LỰC HỢP ĐỒNG", bold: true })] }),
-          P("Hợp đồng có hiệu lực kể từ ngày ký và được lập thành 02 bản có giá trị pháp lý như nhau, mỗi bên giữ 01 bản."),
-        ],
-      }],
+  // Helpers
+  const P = (text: string, opts: Partial<Paragraph> = {}) =>
+    new Paragraph({
+      children: [new TextRun({ text })],
+      spacing: { after: 120 },
+      ...opts,
     });
 
-    const blob = await Packer.toBlob(doc);
-    saveAs(blob, `hop-dong-mua-ban-nha-dat-${contractData.contractDate}.docx`);
-    toast({ title: "Thành công", description: "Hợp đồng (DOCX) đã được tạo." });
-  };
+  const LabelValue = (label: string, value: string) =>
+    new Paragraph({
+      spacing: { after: 80 },
+      children: [
+        new TextRun({ text: `${label}: `, bold: true }),
+        new TextRun({ text: value }),
+      ],
+    });
+
+  const SectionTitle = (text: string) =>
+    new Paragraph({
+      spacing: { before: 200, after: 120 },
+      children: [new TextRun({ text, bold: true })],
+    });
+
+  // Data
+  const f = (n: string) => (n ? new Intl.NumberFormat("vi-VN").format(Number(n)) + " ₫" : "____________");
+
+  // Document
+  const doc = new Document({
+    styles: {
+      default: {
+        document: { run: { font: "Times New Roman", size: 24 }, paragraph: { spacing: { line: 276 } } }, // 12pt, 1.15
+      },
+    },
+    sections: [
+      {
+        properties: {
+          page: { margin: { top: 720, right: 720, bottom: 720, left: 960 } }, // 2cm/2.54cm
+        },
+        children: [
+          // Quốc hiệu - Tiêu ngữ
+          new Paragraph({
+            alignment: AlignmentType.CENTER,
+            spacing: { after: 80 },
+            children: [new TextRun({ text: "CỘNG HÒA XÃ HỘI CHỦ NGHĨA VIỆT NAM", bold: true })],
+          }),
+          new Paragraph({
+            alignment: AlignmentType.CENTER,
+            spacing: { after: 200 },
+            children: [new TextRun({ text: "Độc lập - Tự do - Hạnh phúc" })],
+          }),
+          new Paragraph({
+            alignment: AlignmentType.CENTER,
+            spacing: { before: 80, after: 240 },
+            children: [new TextRun({ text: "HỢP ĐỒNG MUA BÁN NHÀ ĐẤT", bold: true })],
+          }),
+
+          LabelValue("Ngày ký", new Date(contractData.contractDate).toLocaleDateString("vi-VN")),
+          LabelValue("Địa điểm", contractData.propertyAddress || "____________"),
+
+          // BÊN A
+          SectionTitle("BÊN A (BÊN BÁN)"),
+          LabelValue("Họ và tên", contractData.sellerName || "____________"),
+          LabelValue("CMND/CCCD", contractData.sellerIdCard || "____________"),
+          LabelValue("Địa chỉ", contractData.sellerAddress || "____________"),
+          LabelValue("Số điện thoại", contractData.sellerPhone || "____________"),
+
+          // BÊN B
+          SectionTitle("BÊN B (BÊN MUA)"),
+          LabelValue("Họ và tên", contractData.buyerName || "____________"),
+          LabelValue("CMND/CCCD", contractData.buyerIdCard || "____________"),
+          LabelValue("Địa chỉ", contractData.buyerAddress || "____________"),
+          LabelValue("Số điện thoại", contractData.buyerPhone || "____________"),
+
+          // ĐIỀU 1
+          SectionTitle("ĐIỀU 1: ĐỐI TƯỢNG MUA BÁN"),
+          LabelValue("Địa chỉ BĐS", contractData.propertyAddress || "____________"),
+          LabelValue("Diện tích", (contractData.propertyArea ? contractData.propertyArea + " m²" : "____________")),
+          LabelValue("Mô tả", contractData.propertyDescription || "____________"),
+
+          // ĐIỀU 2
+          SectionTitle("ĐIỀU 2: GIÁ BÁN & THANH TOÁN"),
+          LabelValue("Tổng giá trị", contractData.totalPrice ? f(contractData.totalPrice) : "____________"),
+          LabelValue("Đặt cọc", contractData.depositAmount ? f(contractData.depositAmount) : "____________"),
+          LabelValue("Phương thức thanh toán", contractData.paymentTerms || "____________"),
+
+          // ĐIỀU 3
+          SectionTitle("ĐIỀU 3: THỜI GIAN GIAO NHẬN"),
+          LabelValue("Bàn giao", contractData.handoverDate
+            ? new Date(contractData.handoverDate).toLocaleDateString("vi-VN")
+            : "____________"),
+
+          // ĐIỀU 4 (nếu có)
+          ...(contractData.additionalTerms
+            ? [SectionTitle("ĐIỀU 4: CÁC ĐIỀU KHOẢN KHÁC"), P(contractData.additionalTerms)]
+            : []),
+
+          SectionTitle("HIỆU LỰC HỢP ĐỒNG"),
+          P(
+            "Hợp đồng có hiệu lực kể từ ngày ký và được lập thành 02 bản có giá trị pháp lý như nhau, mỗi bên giữ 01 bản."
+          ),
+
+          // Ký tên (bảng 2 cột)
+          new Table({
+            width: { size: 100, type: WidthType.PERCENTAGE },
+            borders: {
+              top: { style: BorderStyle.NONE, size: 0, color: "FFFFFF" },
+              bottom: { style: BorderStyle.NONE, size: 0, color: "FFFFFF" },
+              left: { style: BorderStyle.NONE, size: 0, color: "FFFFFF" },
+              right: { style: BorderStyle.NONE, size: 0, color: "FFFFFF" },
+              insideHorizontal: { style: BorderStyle.NONE, size: 0, color: "FFFFFF" },
+              insideVertical: { style: BorderStyle.NONE, size: 0, color: "FFFFFF" },
+            },
+            rows: [
+              new TableRow({
+                children: [
+                  new TableCell({
+                    width: { size: 50, type: WidthType.PERCENTAGE },
+                    children: [
+                      new Paragraph({
+                        alignment: AlignmentType.CENTER,
+                        children: [new TextRun({ text: "BÊN A (BÊN BÁN)", bold: true })],
+                      }),
+                      new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: "(Ký và ghi rõ họ tên)", italics: true })] }),
+                      new Paragraph({ spacing: { before: 720 }, alignment: AlignmentType.CENTER, children: [new TextRun(contractData.sellerName || "")] }),
+                    ],
+                  }),
+                  new TableCell({
+                    width: { size: 50, type: WidthType.PERCENTAGE },
+                    children: [
+                      new Paragraph({
+                        alignment: AlignmentType.CENTER,
+                        children: [new TextRun({ text: "BÊN B (BÊN MUA)", bold: true })],
+                      }),
+                      new Paragraph({ alignment: AlignmentType.CENTER, children: [new TextRun({ text: "(Ký và ghi rõ họ tên)", italics: true })] }),
+                      new Paragraph({ spacing: { before: 720 }, alignment: AlignmentType.CENTER, children: [new TextRun(contractData.buyerName || "")] }),
+                    ],
+                  }),
+                ],
+              }),
+            ],
+          }),
+        ],
+      },
+    ],
+  });
+
+  const blob = await Packer.toBlob(doc);
+  saveAs(blob, `hop-dong-mua-ban-nha-dat-${contractData.contractDate}.docx`);
+  toast({ title: "Thành công", description: "Đã xuất hợp đồng DOCX." });
+};
 
   // KHÔNG bọc Layout ở đây; DashboardLayout sẽ bọc qua <Outlet />
   return (
