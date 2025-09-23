@@ -50,7 +50,7 @@ const Buy = () => {
           </div>
         </section>
        
-          <section className="py-12">
+        <section className="py-12">
           <ListingByCategorySupabase mode="buy" />
         </section>
       </main>
