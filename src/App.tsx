@@ -40,6 +40,7 @@ const App = () => (
             <Route path="/mua" element={<Buy />} />
             <Route path="/thue" element={<Rent />} />
             <Route path="/ban" element={<Sell />} />
+            <Route path="/du-an" element={<Project />} />
             <Route path="/listings/new" element={<Sell />} />
             <Route path="/search" element={<Search />} />
             <Route path="/moi-gioi" element={<Agents />} />
@@ -72,4 +73,5 @@ const App = () => (
 );
 
 export default App;
+
 
