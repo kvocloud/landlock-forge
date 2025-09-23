@@ -8,6 +8,28 @@ import { BUY_CATS, RENT_CATS, PROJECT_CATS } from "@/constants/categories";
 import { ChevronDown } from "lucide-react";
 import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 
+const LinkGroup = ({
+  label,
+  items,
+}: { label: string; items: { label: string; to: string }[] }) => (
+  <Popover>
+    <PopoverTrigger className="inline-flex items-center gap-1 text-foreground/80 hover:text-primary transition-colors">
+      <span>{label}</span><ChevronDown className="h-4 w-4" />
+    </PopoverTrigger>
+    <PopoverContent align="start" className="p-0 w-60">
+      <ul className="py-2">
+        {items.map((it) => (
+          <li key={it.to}>
+            <Link to={it.to} className="block px-3 py-2 hover:bg-muted text-sm">
+              {it.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </PopoverContent>
+  </Popover>
+);
+
 const NavGroup = ({
   label,
   basePath,
@@ -69,8 +91,8 @@ const Header = () => {
         <div className="flex h-20 items-center justify-between">
           {/* Logo */}
           <div className="flex items-center space-x-4">
-            <Link to="/" className="text-2xl font-bold bg-gradient-hero bg-clip-text text-transparent">
-              BĐS VN
+            <Link to="/" className="flex items-center">
+              <img src="/assets/logo.png" alt="BĐS VN" className="h-10 w-auto" />
             </Link>
           </div>
 
@@ -92,6 +114,13 @@ const Header = () => {
             <NavGroup label="Dự án" basePath="/du-an" items={PROJECT_CATS} />
             <Link to="/moi-gioi" className="text-foreground/80 hover:text-primary transition-colors">Môi giới</Link>
             <Link to="/hop-dong-mua-ban" className="text-foreground/80 hover:text-primary transition-colors">Hợp đồng </Link>
+            <LinkGroup
+  label="Tiện ích"
+  items={[
+    { label: "Lãi suất vay", to: "/tools/loan" },
+    { label: "Tài sản đảm bảo", to: "/tools/collateral" },
+  ]}
+/>
             <Link to="/tools/loan" className="text-foreground/80 hover:text-primary transition-colors">Lãi suất vay </Link>
             <Link to="/tools/collateral" className="text-foreground/80 hover:text-primary transition-colors">Tài sản đảm bảo </Link>
           </nav>
@@ -144,4 +173,5 @@ const Header = () => {
 
 
 export default Header;
+
 
