@@ -121,8 +121,7 @@ const Header = () => {
     { label: "Tài sản đảm bảo", to: "/tools/collateral" },
   ]}
 />
-            <Link to="/tools/loan" className="text-foreground/80 hover:text-primary transition-colors">Lãi suất vay </Link>
-            <Link to="/tools/collateral" className="text-foreground/80 hover:text-primary transition-colors">Tài sản đảm bảo </Link>
+            
           </nav>
 
           {/* Actions */}
@@ -173,5 +172,6 @@ const Header = () => {
 
 
 export default Header;
+
 
 
