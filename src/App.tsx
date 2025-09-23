@@ -10,6 +10,7 @@ import PropertyDetail from "./pages/PropertyDetail";
 import Buy from "./pages/Buy";
 import Rent from "./pages/Rent";
 import Sell from "./pages/Sell";
+import Project from "./pages/Project";
 import Search from "./pages/Search";
 import Agents from "./pages/Agents";
 import Auth from "./pages/Auth";
@@ -73,5 +74,6 @@ const App = () => (
 );
 
 export default App;
+
 
 
