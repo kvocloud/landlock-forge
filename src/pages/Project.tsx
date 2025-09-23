@@ -1,6 +1,6 @@
 import Header from "@/components/Header";
 import Footer from "@/components/Footer";
-import ListingByCategorySupabase from "@/pages/listings/ListingByCategorySupabase";
+import ListingByCategorySupabase from "@/pages/ListingByCategorySupabase";
 
 const Projects = () => {
   return (
@@ -30,4 +30,5 @@ const Projects = () => {
 };
 
 export default Projects;
+
 
