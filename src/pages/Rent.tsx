@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import SearchFilters from "@/components/SearchFilters";
 import PropertyCard from "@/components/PropertyCard";
 import { mockProperties } from "@/data/mockProperties";
+import ListingByCategorySupabase from "@/pages/listings/ListingByCategorySupabase";
 
 const Rent = () => {
   const propertiesForRent = mockProperties.filter(property => property.status === "Cho thuê");
