@@ -3,6 +3,7 @@ import Footer from "@/components/Footer";
 import SearchFilters from "@/components/SearchFilters";
 import PropertyCard from "@/components/PropertyCard";
 import { mockProperties } from "@/data/mockProperties";
+import ListingByCategorySupabase from "@/pages/listings/ListingByCategorySupabase";
 
 const Buy = () => {
   const propertiesForSale = mockProperties.filter(property => property.status === "Cần bán");
