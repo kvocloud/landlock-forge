@@ -48,6 +48,9 @@ const Rent = () => {
             </div>
           </div>
         </section>
+        <section className="py-12">
+          <ListingByCategorySupabase mode="rent" />
+        </section>
       </main>
 
       <Footer />
