@@ -94,7 +94,7 @@ export default function ListingByCategorySupabase({ mode }: { mode: Mode }) {
             onValueChange={(v) => {
               setCategory(v);
               const u = new URL(window.location.href);
-              v ? u.searchParams.set("category", v) : u.searchParams.delete("category");
+             
               window.history.replaceState({}, "", u.toString());
             }}
           >
