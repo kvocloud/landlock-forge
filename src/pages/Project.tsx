@@ -14,7 +14,7 @@ const Projects = () => {
               Dự án bất động sản
             </h1>
             <p className="text-xl text-white/90 max-w-2xl mx-auto">
-              Khám phá các dự án căn hộ, khu đô thị, nghỉ dưỡng nổi bật
+              Khám phá các dự án căn hộ, khu đô thị, nghỉ dưỡng nổi bật 1
             </p>
           </div>
         </section>
@@ -30,3 +30,4 @@ const Projects = () => {
 };
 
 export default Projects;
+
