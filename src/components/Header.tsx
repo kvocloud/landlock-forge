@@ -92,7 +92,7 @@ const Header = () => {
           {/* Logo */}
           <div className="flex items-center space-x-4">
             <Link to="/" className="flex items-center">
-              <img src="@/assets/logo.png" alt="BĐS VN" className="h-10 w-auto" />
+              <img src="/assets/logo.png" alt="BĐS VN" className="h-10 w-auto" />
             </Link>
           </div>
 
@@ -172,6 +172,7 @@ const Header = () => {
 
 
 export default Header;
+
 
 
 
