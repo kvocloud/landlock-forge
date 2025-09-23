@@ -18,7 +18,6 @@ const Projects = () => {
             </p>
           </div>
         </section>
-
         <section className="py-12">
           <ListingByCategorySupabase mode="project" />
         </section>
@@ -30,5 +29,6 @@ const Projects = () => {
 };
 
 export default Projects;
+
 
 
