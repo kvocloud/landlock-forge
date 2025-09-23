@@ -48,6 +48,10 @@ const Buy = () => {
             </div>
           </div>
         </section>
+        /section>
+          <section className="py-12">
+          <ListingByCategorySupabase mode="buy" />
+        </section>
       </main>
 
       <Footer />
