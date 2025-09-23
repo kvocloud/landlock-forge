@@ -4,7 +4,35 @@ import { Input } from "@/components/ui/input";
 import { Link } from "react-router-dom";
 import { useAuthStore } from "@/store/authStore";
 import { toast } from "@/hooks/use-toast";
+import { BUY_CATS, RENT_CATS, PROJECT_CATS } from "@/constants/categories";
+import { ChevronDown } from "lucide-react";
+import { Popover, PopoverTrigger, PopoverContent } from "@/components/ui/popover";
 
+const NavGroup = ({
+  label,
+  basePath,
+  items,
+}: { label: string; basePath: string; items: { label: string; slug: string }[] }) => (
+  <Popover>
+    <PopoverTrigger className="inline-flex items-center gap-1 text-foreground/80 hover:text-primary transition-colors">
+      <span>{label}</span><ChevronDown className="h-4 w-4" />
+    </PopoverTrigger>
+    <PopoverContent align="start" className="p-0 w-72">
+      <ul className="py-2">
+        {items.map((it) => (
+          <li key={it.slug}>
+            <Link
+              to={`${basePath}?category=${it.slug}`}
+              className="block px-3 py-2 hover:bg-muted text-sm"
+            >
+              {it.label}
+            </Link>
+          </li>
+        ))}
+      </ul>
+    </PopoverContent>
+  </Popover>
+);
 const Header = () => {
   const { isAuthenticated, profile } = useAuthStore();
   
@@ -59,9 +87,9 @@ const Header = () => {
 
           {/* Navigation */}
           <nav className="hidden lg:flex items-center space-x-6">
-            <Link to="/mua" className="text-foreground/80 hover:text-primary transition-colors">Mua</Link>
-            <Link to="/thue" className="text-foreground/80 hover:text-primary transition-colors">Thuê</Link>
-            <Link to="/ban" className="text-foreground/80 hover:text-primary transition-colors">Bán Sell</Link>
+            <NavGroup label="Nhà đất bán" basePath="/mua" items={BUY_CATS} />
+            <NavGroup label="Nhà đất cho thuê" basePath="/thue" items={RENT_CATS} />
+            <NavGroup label="Dự án" basePath="/du-an" items={PROJECT_CATS} />
             <Link to="/moi-gioi" className="text-foreground/80 hover:text-primary transition-colors">Môi giới</Link>
             <Link to="/hop-dong-mua-ban" className="text-foreground/80 hover:text-primary transition-colors">Hợp đồng </Link>
             <Link to="/tools/loan" className="text-foreground/80 hover:text-primary transition-colors">Lãi suất vay </Link>
@@ -116,3 +144,4 @@ const Header = () => {
 
 
 export default Header;
+
