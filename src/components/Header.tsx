@@ -92,7 +92,7 @@ const Header = () => {
           {/* Logo */}
           <div className="flex items-center space-x-4">
             <Link to="/" className="flex items-center">
-              <img src="/assets/logo.png" alt="BĐS VN" className="h-10 w-auto" />
+              <img src="/assets/logo.png" alt="BĐS VN" className="h-16 w-auto" />
             </Link>
           </div>
 
@@ -117,6 +117,7 @@ const Header = () => {
             <LinkGroup
   label="Tiện ích"
   items={[
+    { label: "Hợp đồng mua bán", to: "/hop-dong-mua-ban" },
     { label: "Lãi suất vay", to: "/tools/loan" },
     { label: "Tài sản đảm bảo", to: "/tools/collateral" },
   ]}
@@ -146,9 +147,15 @@ const Header = () => {
                 <Button variant="hero" asChild className="hidden md:flex">
                   <Link to="/ban">Đăng tin</Link>
                 </Button>
+                <Button variant="hero" asChild className="hidden md:flex">
+      <Link to="/new-du-an">Đăng tin dự án</Link>
+    </Button>
               </>
             ) : (
               <>
+                <Button variant="hero" asChild className="hidden md:flex">
+      <Link to="/new-du-an">Đăng tin dự án</Link>
+    </Button>
                 <Button variant="outline" asChild className="hidden md:flex">
                   <Link to="/auth">
                     <User className="h-4 w-4 mr-2" />
@@ -172,6 +179,7 @@ const Header = () => {
 
 
 export default Header;
+
 
 
 
