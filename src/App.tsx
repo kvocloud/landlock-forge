@@ -24,6 +24,8 @@ import { ProtectedRoute } from "./components/ProtectedRoute";
 import ContractTemplate from "@/pages/ContractTemplate";
 import LoanCalculator from "@/pages/tools/LoanCalculator";
 import CollateralEstimator from "@/pages/tools/CollateralEstimator";
+import ProjectDetail from "./pages/ProjectDetail";
+import ProjectCreateEdit from "./routes/ProjectCreateEdit";
 
 const queryClient = new QueryClient();
 
@@ -50,6 +52,10 @@ const App = () => (
             <Route path="/hop-dong-mua-ban" element={<ContractTemplate />} />
             <Route path="/tools/loan" element={<LoanCalculator />} />
             <Route path="/tools/collateral" element={<CollateralEstimator />} />
+            <Route path="/dang-du-an" element={<ProjectDetail />} />
+            <Route path="/du-an/:slug" element={<ProjectDetail />} />
+            <Route path="/new-du-an" element={<ProjectCreateEdit />} />
+            
             {/* Protected Dashboard Routes */}
             <Route element={
               <ProtectedRoute>
@@ -75,6 +81,7 @@ const App = () => (
 );
 
 export default App;
+
 
 
 
