@@ -30,9 +30,11 @@ const Index = () => {
         </section>
 
         <FeaturedProperties />
-        <StatsSection />
         <BlogShowcase />
         <NewsSection />
+        <StatsSection />
+        
+        
       </main>
       <Footer />
     </div>
