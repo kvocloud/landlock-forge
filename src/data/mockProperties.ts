@@ -115,6 +115,54 @@ export const mockProperties: Property[] = [
     description: "Affordable family home with modern amenities. Great for growing families looking for space and value outside the city center.",
     amenities: ["Garden", "Parking", "Modern Kitchen", "Security", "Playground Nearby"],
     propertyType: "Townhouse"
+  },
+  {
+    id: 7,
+    title: "Family Townhouse in Ha Nam",
+    price: 4500000000,
+    location: "Thu Dau Mot, Binh Duong",
+    bedrooms: 3,
+    bathrooms: 2,
+    area: 150,
+    parking: 2,
+    image: property3,
+    status: "Cho thuê",
+    featured: false,
+    description: "Affordable family home with modern amenities. Great for growing families looking for space and value outside the city center.",
+    amenities: ["Garden", "Parking", "Modern Kitchen", "Security", "Playground Nearby"],
+    propertyType: "Townhouse"
+  },
+  {
+    id: 8,
+    title: "Family Townhouse in Ha Noi",
+    price: 4500000000,
+    location: "Thu Dau Mot, Binh Duong",
+    bedrooms: 3,
+    bathrooms: 2,
+    area: 150,
+    parking: 2,
+    image: property3,
+    status: "Cho thuê",
+    featured: false,
+    description: "Affordable family home with modern amenities. Great for growing families looking for space and value outside the city center.",
+    amenities: ["Garden", "Parking", "Modern Kitchen", "Security", "Playground Nearby"],
+    propertyType: "Townhouse"
+  },
+  {
+    id: 9,
+    title: "Family Townhouse in VN",
+    price: 4500000000,
+    location: "Thu Dau Mot, Binh Duong",
+    bedrooms: 3,
+    bathrooms: 2,
+    area: 150,
+    parking: 2,
+    image: property3,
+    status: "Cho thuê",
+    featured: false,
+    description: "Affordable family home with modern amenities. Great for growing families looking for space and value outside the city center.",
+    amenities: ["Garden", "Parking", "Modern Kitchen", "Security", "Playground Nearby"],
+    propertyType: "Townhouse"
   }
 ];
 
