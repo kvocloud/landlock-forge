@@ -4,6 +4,8 @@ import SearchFilters from "@/components/SearchFilters";
 import FeaturedProperties from "@/components/FeaturedProperties";
 import StatsSection from "@/components/StatsSection";
 import Footer from "@/components/Footer";
+import BlogShowcase from "@/components/BlogShowcase";
+import NewsSection from "@/components/NewsSection";
 
 const Index = () => {
   return (
@@ -29,6 +31,8 @@ const Index = () => {
 
         <FeaturedProperties />
         <StatsSection />
+        <BlogShowcase />
+        <NewsSection />
       </main>
       <Footer />
     </div>
